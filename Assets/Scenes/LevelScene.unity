@@ -4295,7 +4295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   swerveSpeed: 0.5
-  maxSwerveAmount: 1
+  maxSwerveAmount: 0.4
   clampXPositionAmount: 1.6
 --- !u!114 &4988040887145540049
 MonoBehaviour:
