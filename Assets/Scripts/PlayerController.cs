@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private float swerveAmount;
 
-    private bool isGameStarted;
+    public bool isGameStarted;
     private bool speedChanged;
 
     private Animator animator;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         if (speedChanged)
         {
             currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, .01f);
-            if ((currentSpeed <= targetSpeed + 0.1f) && currentSpeed >= targetSpeed - 0.1f)
+            if ((currentSpeed <= targetSpeed + 0.05f) && currentSpeed >= targetSpeed - 0.05f)
             {
                 speedChanged = false;
             }
@@ -80,8 +80,9 @@ public class PlayerController : MonoBehaviour
 
     public void GetHitted()
     {
-        currentSpeed = 3;
+        currentSpeed = 0.2f;
         speedChanged = true;
+        animator.SetTrigger("Hitted");
     }
     public void Finished()
     {

@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - ObjectPool
   - EconomyManager
+  - TimeSlower
   layers:
   - Default
   - TransparentFX

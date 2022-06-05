@@ -9,9 +9,11 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     [Header("About Health Variables")]
-    public int health;
-    public bool godMode;
+    private int health;
+    public int collectedDiamonds;
+    public int collectedCoins;
 
+    public bool godMode;
     public bool gameStarted;
 
     [SerializeField] private float godModeDuration = 2f;
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject menuCanvas;
     [SerializeField] private GameObject inGameCanvas;
+    [SerializeField] private GameObject finishCanvas;
 
     [Header("About Level Progress")]
     [SerializeField] private Transform finishTransform;
@@ -38,8 +41,6 @@ public class GameManager : MonoBehaviour
 
     private float godModeTimer;
 
-    private int collectedDiamonds;
-    private int collectedCoins;
 
     private PlayerController playerController;
     private ObjectPool objectPool;
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour
         //    var heart = Instantiate(healthObject);
         //    heart.transform.parent = healthParentObject.transform;
         //}
+
+        
     }
 
     
@@ -78,6 +81,7 @@ public class GameManager : MonoBehaviour
                 var heart = Instantiate(healthObject);
                 heart.transform.parent = healthParentObject.transform;
             }
+            health = economyManager.heartCount;
         }
 
         remainDistanceToFinish = Vector3.Distance(transform.position, finishTransform.position);
@@ -92,7 +96,31 @@ public class GameManager : MonoBehaviour
                 godMode = false;
             }
         }
+
+        if (health <= 0)
+        {
+            LevelFailed();
+        }
     }
+
+    void LevelFailed()
+    {
+        gameStarted = false;
+        playerController.isGameStarted = false;
+
+        GetComponent<Animator>().SetTrigger("Failed");
+        startCam.Priority = 10;
+        StartCoroutine(WaitForFailCanvas());
+
+        inGameCanvas.SetActive(false);        
+    }
+    void LevelPassed()
+    {
+        inGameCanvas.SetActive(false);
+        finishCanvas.SetActive(true);
+        finishCanvas.transform.GetChild(1).gameObject.SetActive(true);
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -133,6 +161,14 @@ public class GameManager : MonoBehaviour
         {
             startCam.Priority = 10;
             playerController.Finished();
+            LevelPassed();
         }
+    }
+
+    IEnumerator WaitForFailCanvas()
+    {
+        yield return new WaitForSeconds(2);
+        finishCanvas.SetActive(true);
+        finishCanvas.transform.GetChild(0).gameObject.SetActive(true);
     }
 }
