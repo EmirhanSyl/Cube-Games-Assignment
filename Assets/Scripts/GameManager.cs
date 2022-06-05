@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool gameStarted;
 
     [SerializeField] private float godModeDuration = 2f;
+    [SerializeField] private float slowTimeDuration = 2f;
 
     [SerializeField] private GameObject healthObject;
     [SerializeField] private GameObject healthParentObject;
@@ -40,7 +41,9 @@ public class GameManager : MonoBehaviour
     private float remainDistanceToFinish;
 
     private float godModeTimer;
+    private float slowTimeTimer;
 
+    private bool slowTimeBooster;
 
     private PlayerController playerController;
     private ObjectPool objectPool;
@@ -94,6 +97,21 @@ public class GameManager : MonoBehaviour
             {
                 godModeTimer = 0;
                 godMode = false;
+            }
+        }
+
+        if (slowTimeBooster)
+        {
+            slowTimeTimer += Time.deltaTime;
+            if (slowTimeTimer >= slowTimeDuration)
+            {
+                Time.timeScale = 1;
+                slowTimeTimer = 0;
+                slowTimeBooster = false;
+            }
+            else
+            {
+                Time.timeScale = 0.5f;
             }
         }
 
@@ -162,6 +180,16 @@ public class GameManager : MonoBehaviour
             startCam.Priority = 10;
             playerController.Finished();
             LevelPassed();
+        }
+        else if (other.gameObject.CompareTag("TimeSlower"))
+        {
+            slowTimeBooster = true;
+            other.gameObject.SetActive(false);
+        }
+        else if (other.gameObject.CompareTag("GodMode"))
+        {
+            godMode = true;
+            other.gameObject.SetActive(false);
         }
     }
 

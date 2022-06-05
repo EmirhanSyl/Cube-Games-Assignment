@@ -10,6 +10,7 @@ TagManager:
   - ObjectPool
   - EconomyManager
   - TimeSlower
+  - GodMode
   layers:
   - Default
   - TransparentFX
