@@ -7,6 +7,8 @@ TagManager:
   - Diamond
   - Coin
   - Obstacle
+  - ObjectPool
+  - EconomyManager
   layers:
   - Default
   - TransparentFX

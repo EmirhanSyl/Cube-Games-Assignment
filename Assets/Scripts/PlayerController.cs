@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -34,13 +35,15 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isGameStarted)
+        if (Input.GetMouseButtonDown(0) && !isGameStarted && !EventSystem.current.IsPointerOverGameObject())
         {
-            isGameStarted = true;
-            animator.SetTrigger("StartRunning");
+            StartCoroutine(WaitForCameraChange());
 
-            targetSpeed = speed;
-            speedChanged = true;
+            //isGameStarted = true;
+            //animator.SetTrigger("StartRunning");
+
+            //targetSpeed = speed;
+            //speedChanged = true;
         }
 
         swerveAmount = swerveSpeed * Time.deltaTime * swerveInput.moveAmountOnXAxis;
@@ -50,6 +53,7 @@ public class PlayerController : MonoBehaviour
         var pos = transform.position;
         pos.x = Mathf.Clamp(transform.position.x, -clampXPositionAmount, clampXPositionAmount);
         transform.position = pos;
+        transform.localRotation = Quaternion.Euler(0, 0, 0);
 
         if (speedChanged)
         {
@@ -65,14 +69,35 @@ public class PlayerController : MonoBehaviour
     {
         if (isGameStarted)
         {
-            rig.velocity = currentSpeed * new Vector3(0, 0, 1);
-            transform.Translate(swerveAmount, 0 , 0);
+            //With Rigidbody
+            //rig.velocity = currentSpeed * new Vector3(0, 0, 1);
+
+            //With Transform
+            transform.Translate(swerveAmount, 0 , currentSpeed);
+
         }
     }
 
     public void GetHitted()
     {
         currentSpeed = 3;
-       
+        speedChanged = true;
+    }
+    public void Finished()
+    {
+        currentSpeed = 0;
+        isGameStarted = false;
+        animator.SetTrigger("VictoryAnim");
+    }
+
+    IEnumerator WaitForCameraChange()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isGameStarted = true;
+        animator.SetTrigger("StartRunning");
+
+        targetSpeed = speed;
+        speedChanged = true;
+        StopCoroutine(WaitForCameraChange());
     }
 }
