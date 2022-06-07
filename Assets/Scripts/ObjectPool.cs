@@ -22,11 +22,12 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        poolDictinory = new Dictionary<string, Queue<GameObject>>();
     }
 
     private void Start()
     {
-       poolDictinory = new Dictionary<string, Queue<GameObject>>();
+       //poolDictinory = new Dictionary<string, Queue<GameObject>>();
 
         foreach (Pool pool in pools)
         {

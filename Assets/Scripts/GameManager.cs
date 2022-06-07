@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float godModeDuration = 2f;
     [SerializeField] private float slowTimeDuration = 2f;
 
+    [SerializeField] private int totalObstacleCount = 10;
+    [SerializeField] private int totalDiamondCount = 3;
+    [SerializeField] private int totalCoinCount = 25;
+    [SerializeField] private int totalBoosterCount = 2;
+
     [SerializeField] private GameObject healthObject;
     [SerializeField] private GameObject healthParentObject;
 
@@ -39,6 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject godModeIcon;
     [SerializeField] private TMP_Text diamondCountText;
     [SerializeField] private TMP_Text coinCountText;
+    [SerializeField] private TMP_Text levelText;
 
     private float levelLength;
     private float remainDistanceToFinish;
@@ -46,29 +52,36 @@ public class GameManager : MonoBehaviour
     private float godModeTimer;
     private float slowTimeTimer;
 
-    private int obstacleCount = 10;
-    private int diamondCount = 3;
-    private int coinCount = 25;
+    private int obstacleCount;
+    private int diamondCount;
+    private int coinCount;
 
     private bool slowTimeBooster;
+    private bool failBool;
 
     private GameObject[] spawnPoints;
 
     private PlayerController playerController;
     private ObjectPool objectPool;
     private EconomyManager economyManager;
+    private AudioSource audioSource;
 
     void Awake()
     {
         Instance = this;
         playerController = GetComponent<PlayerController>();
+        audioSource = GetComponent<AudioSource>();
         objectPool = ObjectPool.Instance;
         economyManager = GameObject.FindGameObjectWithTag("EconomyManager").GetComponent<EconomyManager>();
         spawnPoints = GameObject.FindGameObjectsWithTag("ObstacleSpawn");
 
         levelLength = Vector3.Distance(transform.position, finishTransform.position);
         diamondCountText.text = "0";
-        coinCountText.text = "0";        
+        coinCountText.text = "0";
+
+        obstacleCount = totalObstacleCount;
+        diamondCount = totalDiamondCount;
+        coinCount = totalCoinCount;
         
     }
 
@@ -76,23 +89,23 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < obstacleCount; i++)
         {
-            objectPool.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0,90,0));
+            ObjectPool.Instance.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0,90,0));
         }
 
         for (int i = 0; i < diamondCount; i++)
         {
-            objectPool.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            ObjectPool.Instance.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
         
         for (int i = 0; i < coinCount; i++)
         {
-            objectPool.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            ObjectPool.Instance.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < totalBoosterCount; i++)
         {
-            objectPool.SpawnFromPool("TimeSlower", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
-            objectPool.SpawnFromPool("GodModeBooster", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            ObjectPool.Instance.SpawnFromPool("TimeSlower", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            ObjectPool.Instance.SpawnFromPool("GodModeBooster", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
 
     }
@@ -113,6 +126,7 @@ public class GameManager : MonoBehaviour
                 heart.transform.parent = healthParentObject.transform;
             }
             health = economyManager.heartCount;
+            levelText.text = economyManager.level.ToString();
         }
 
         remainDistanceToFinish = Vector3.Distance(transform.position, finishTransform.position);
@@ -155,7 +169,15 @@ public class GameManager : MonoBehaviour
         gameStarted = false;
         playerController.isGameStarted = false;
 
+        if (!failBool)
+        {
+            playerController.hittedParticles.gameObject.SetActive(true);
+            playerController.hittedParticles.Play();
+            failBool = true;
+        }
+
         GetComponent<Animator>().SetTrigger("Failed");
+        
         startCam.Priority = 10;
         StartCoroutine(WaitForFailCanvas());
 
@@ -181,7 +203,7 @@ public class GameManager : MonoBehaviour
             diamondCountText.text = collectedDiamonds.ToString();
             diamondCount--;
 
-            while (diamondCount < 3)
+            while (diamondCount < totalDiamondCount)
             {
                 var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
                 //if (remainDistanceToFinish < 15f)
@@ -190,22 +212,24 @@ public class GameManager : MonoBehaviour
                 //}
                 if (selectedSpawn.z - transform.position.z > 10 || remainDistanceToFinish < 25f)
                 {
-                    objectPool.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f,0), Quaternion.identity);
+                    ObjectPool.Instance.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f,0), Quaternion.identity);
                     diamondCount++;
                 }
             }
 
             diamondSprite.GetComponent<Animator>().SetTrigger("DiamondCollected");
-            objectPool.diamondCollectedFX.transform.position = other.transform.position;
-            objectPool.diamondCollectedFX.SetActive(true);
+            ObjectPool.Instance.diamondCollectedFX.transform.position = other.transform.position;
+            ObjectPool.Instance.diamondCollectedFX.SetActive(true);
+            ObjectPool.Instance.diamondCollectedFX.GetComponent<ParticleSystem>().Play();
         }
         else if (other.gameObject.CompareTag("Coin"))
         {
             other.gameObject.SetActive(false);
             collectedCoins += economyManager.coinMultiplier;
             coinCount--;
+            audioSource.Play();
 
-            while (coinCount < 20)
+            while (coinCount < totalCoinCount)
             {
                 var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
                 //if (remainDistanceToFinish < 15f)
@@ -214,7 +238,7 @@ public class GameManager : MonoBehaviour
                 //}
                 if (selectedSpawn.z - transform.position.z > 10 || remainDistanceToFinish < 25f)
                 {
-                    objectPool.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+                    ObjectPool.Instance.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
                     coinCount++;
                 }
             }
@@ -231,7 +255,7 @@ public class GameManager : MonoBehaviour
                 Destroy(healthParentObject.transform.GetChild(healthParentObject.transform.childCount - 1).gameObject);
             }
 
-            while (obstacleCount < 10)
+            while (obstacleCount < totalObstacleCount)
             {
                 var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
 
@@ -241,7 +265,7 @@ public class GameManager : MonoBehaviour
                 //}
                 if (selectedSpawn.z - transform.position.z > 10 || remainDistanceToFinish < 25f)
                 {
-                    objectPool.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0, 90, 0));
+                    ObjectPool.Instance.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0, 90, 0));
                     obstacleCount++;
                 }
             }            
@@ -272,12 +296,13 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator WaitForFailCanvas()
-    {
+    {        
         yield return new WaitForSeconds(2);
         finishCanvas.SetActive(true);
-        finishCanvas.transform.GetChild(0).gameObject.SetActive(true);
+        finishCanvas.transform.GetChild(0).gameObject.SetActive(true);        
+
     }
-    
+
     IEnumerator WaitForPassedCanvas()
     {
         yield return new WaitForSeconds(2);

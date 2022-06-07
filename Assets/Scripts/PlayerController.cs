@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxSwerveAmount = 1f;
     [SerializeField] private float clampXPositionAmount = 1.6f;
 
+    public ParticleSystem hittedParticles;
+
     private float currentSpeed;
     private float targetSpeed;
 
@@ -82,11 +84,16 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.godMode)
         {
+            hittedParticles.gameObject.SetActive(true);
+            hittedParticles.Play();
             return;
         }
         currentSpeed = 0.2f;
         speedChanged = true;
         animator.SetTrigger("Hitted");
+        hittedParticles.gameObject.SetActive(true);
+        hittedParticles.Play();
+
     }
     public void Finished()
     {

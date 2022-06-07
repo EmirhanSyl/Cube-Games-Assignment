@@ -83,6 +83,10 @@ public class EconomyManager : MonoBehaviour
             coinAmount = 0;
             PlayerPrefs.SetInt("Level", level);
         }
+        if (level > 3)
+        {
+            level = 3;
+        }
 
         if (PlayerPrefs.HasKey("HealthLevel"))
         {
@@ -241,6 +245,10 @@ public class EconomyManager : MonoBehaviour
     public void NextLevelButton()
     {
         level++;
+        if (level > 3)
+        {
+            level = 3;
+        }
         PlayerPrefs.SetInt("Level", level);
         
         nextLevelButtonPressed = true;
@@ -252,9 +260,9 @@ public class EconomyManager : MonoBehaviour
     }
 
     IEnumerator WaitForNextScene()
-    {
+    {        
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(level);
     }
 
 }
