@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2080313798539439675}
   m_Layer: 0
-  m_Name: ObstacleSpawn (15)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -30,36 +30,6 @@ Transform:
   m_Father: {fileID: 4941207411165830857}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1327200431755000355
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2956986606597375286}
-  m_Layer: 0
-  m_Name: PowerUpSpawns
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2956986606597375286
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1327200431755000355}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1123256339066043058}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1746869836344447490
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4643066894933710004}
   m_Layer: 0
-  m_Name: ObstacleSpawn (7)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -100,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1252412324400558091}
   m_Layer: 0
-  m_Name: ObstacleSpawn (13)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -148,8 +118,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4941207411165830857}
-  - {fileID: 2956986606597375286}
-  - {fileID: 8909398990015951537}
   m_Father: {fileID: 8986694244106778223}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5669314704379081975}
   m_Layer: 0
-  m_Name: ObstacleSpawn (16)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -193,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5388756530228634617}
   m_Layer: 0
-  m_Name: ObstacleSpawn (14)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -223,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4972556653030110245}
   m_Layer: 0
-  m_Name: ObstacleSpawn (5)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -253,7 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9030694182295107383}
   m_Layer: 0
-  m_Name: ObstacleSpawn (12)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -283,7 +251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2337325328851167821}
   m_Layer: 0
-  m_Name: ObstacleSpawn (8)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -313,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 191972687286367750}
   m_Layer: 0
-  m_Name: ObstacleSpawn (10)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -343,7 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5943180604918628709}
   m_Layer: 0
-  m_Name: ObstacleSpawn
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -373,7 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 95150426241992799}
   m_Layer: 0
-  m_Name: ObstacleSpawn (17)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -403,7 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8825720950378941761}
   m_Layer: 0
-  m_Name: ObstacleSpawn (6)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -433,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3531478617530740397}
   m_Layer: 0
-  m_Name: ObstacleSpawn (4)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -453,36 +421,6 @@ Transform:
   m_Father: {fileID: 4941207411165830857}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6442481503724781042
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8909398990015951537}
-  m_Layer: 0
-  m_Name: CollectablesSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8909398990015951537
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6442481503724781042}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1123256339066043058}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7491442533167212263
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4941207411165830857}
   m_Layer: 0
-  m_Name: ObstacleSpawns
+  m_Name: Spawners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,7 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5620762439112247563}
   m_Layer: 0
-  m_Name: ObstacleSpawn (3)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -571,7 +509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7570491995045477088}
   m_Layer: 0
-  m_Name: ObstacleSpawn (2)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -601,7 +539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2105062816721065888}
   m_Layer: 0
-  m_Name: ObstacleSpawn (9)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -631,7 +569,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8021129281893624511}
   m_Layer: 0
-  m_Name: ObstacleSpawn (11)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -661,7 +599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9153891414345900120}
   m_Layer: 0
-  m_Name: ObstacleSpawn (1)
+  m_Name: SpawnObject
   m_TagString: ObstacleSpawn
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

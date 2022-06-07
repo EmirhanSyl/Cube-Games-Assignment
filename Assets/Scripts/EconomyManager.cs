@@ -70,6 +70,30 @@ public class EconomyManager : MonoBehaviour
 
     void Awake()
     {
+        if (PlayerPrefs.HasKey("Level"))
+        {
+            level = PlayerPrefs.GetInt("Level");
+            diamondAmount = PlayerPrefs.GetInt("DiamondAmount");
+            coinAmount = PlayerPrefs.GetInt("CoinAmount");
+        }
+        else
+        {
+            level = 1;
+            diamondAmount = 0;
+            coinAmount = 0;
+            PlayerPrefs.SetInt("Level", level);
+        }
+
+        if (PlayerPrefs.HasKey("HealthLevel"))
+        {
+            heartCount = PlayerPrefs.GetInt("HealthLevel");
+        }
+
+        if (PlayerPrefs.HasKey("CoinBoostLevel"))
+        {
+            coinMultiplier = PlayerPrefs.GetInt("CoinBoostLevel");
+        }
+
         gameManager = GameObject.FindGameObjectWithTag("Player").GetComponent<GameManager>();
     }
 
@@ -167,6 +191,8 @@ public class EconomyManager : MonoBehaviour
 
                         if (diamondAnimCount == 0 && coinAnimCount == 0)
                         {
+                            PlayerPrefs.SetInt("DiamondAmount", diamondAmount);
+                            PlayerPrefs.SetInt("CoinAmount", coinAmount);
                             StartCoroutine(WaitForNextScene());
                         }
                     }
@@ -186,6 +212,9 @@ public class EconomyManager : MonoBehaviour
 
         heartCount++;
         diamondAmount -= levelCost;
+
+        PlayerPrefs.SetInt("HealthLevel", heartCount);
+        PlayerPrefs.SetInt("DiamondAmount", diamondAmount);
     }
 
     public void UpgradeCoinBoosterButton()
@@ -199,6 +228,9 @@ public class EconomyManager : MonoBehaviour
 
         coinMultiplier++;
         coinAmount -= levelCost;
+
+        PlayerPrefs.SetInt("CoinBoostLevel", coinMultiplier);
+        PlayerPrefs.SetInt("CoinAmount", coinAmount);
     }
 
     public void RetryButton()
@@ -209,7 +241,14 @@ public class EconomyManager : MonoBehaviour
     public void NextLevelButton()
     {
         level++;
+        PlayerPrefs.SetInt("Level", level);
+        
         nextLevelButtonPressed = true;
+    }
+
+    public void RestartPreferances()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
     IEnumerator WaitForNextScene()

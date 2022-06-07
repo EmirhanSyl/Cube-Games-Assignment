@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+
     [Header("About Health Variables")]
     private int health;
     public int collectedDiamonds;
@@ -34,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     [Header("About Collectables")]
     [SerializeField] private GameObject diamondSprite;
+    [SerializeField] private GameObject godModeIcon;
     [SerializeField] private TMP_Text diamondCountText;
     [SerializeField] private TMP_Text coinCountText;
 
@@ -57,8 +60,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Instance = this;
         playerController = GetComponent<PlayerController>();
-        objectPool = GameObject.FindGameObjectWithTag("ObjectPool").GetComponent<ObjectPool>();
+        objectPool = ObjectPool.Instance;
         economyManager = GameObject.FindGameObjectWithTag("EconomyManager").GetComponent<EconomyManager>();
         spawnPoints = GameObject.FindGameObjectsWithTag("ObstacleSpawn");
 
@@ -72,18 +76,25 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < obstacleCount; i++)
         {
-            ObjectPool.Instance.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0,90,0));
+            objectPool.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0,90,0));
         }
 
         for (int i = 0; i < diamondCount; i++)
         {
-            ObjectPool.Instance.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            objectPool.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
         
         for (int i = 0; i < coinCount; i++)
         {
-            ObjectPool.Instance.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            objectPool.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
         }
+
+        for (int i = 0; i < 2; i++)
+        {
+            objectPool.SpawnFromPool("TimeSlower", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+            objectPool.SpawnFromPool("GodModeBooster", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+        }
+
     }
 
     void Update()
@@ -113,6 +124,7 @@ public class GameManager : MonoBehaviour
             if (godModeTimer > godModeDuration)
             {
                 godModeTimer = 0;
+                godModeIcon.SetActive(false);
                 godMode = false;
             }
         }
@@ -172,9 +184,13 @@ public class GameManager : MonoBehaviour
             while (diamondCount < 3)
             {
                 var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
-                if (selectedSpawn.z - transform.position.z > 10)
+                //if (remainDistanceToFinish < 15f)
+                //{
+                //    diamondCount = 3;
+                //}
+                if (selectedSpawn.z - transform.position.z > 10 || remainDistanceToFinish < 25f)
                 {
-                    ObjectPool.Instance.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f,0), Quaternion.identity);
+                    objectPool.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f,0), Quaternion.identity);
                     diamondCount++;
                 }
             }
@@ -189,12 +205,16 @@ public class GameManager : MonoBehaviour
             collectedCoins += economyManager.coinMultiplier;
             coinCount--;
 
-            while (coinCount < 25)
+            while (coinCount < 20)
             {
                 var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
-                if (selectedSpawn.z - transform.position.z > 10)
+                //if (remainDistanceToFinish < 15f)
+                //{
+                //    coinCount = 20;
+                //}
+                if (selectedSpawn.z - transform.position.z > 10 || remainDistanceToFinish < 25f)
                 {
-                    ObjectPool.Instance.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+                    objectPool.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
                     coinCount++;
                 }
             }
@@ -214,9 +234,14 @@ public class GameManager : MonoBehaviour
             while (obstacleCount < 10)
             {
                 var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
-                if (selectedSpawn.z - transform.position.z > 10)
+
+                //if (remainDistanceToFinish < 15f)
+                //{
+                //    obstacleCount = 10;
+                //}
+                if (selectedSpawn.z - transform.position.z > 10 || remainDistanceToFinish < 25f)
                 {
-                    ObjectPool.Instance.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0, 90, 0));
+                    objectPool.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0, 90, 0));
                     obstacleCount++;
                 }
             }            
@@ -241,6 +266,7 @@ public class GameManager : MonoBehaviour
         else if (other.gameObject.CompareTag("GodMode"))
         {
             godMode = true;
+            godModeIcon.SetActive(true);
             other.gameObject.SetActive(false);
         }
     }

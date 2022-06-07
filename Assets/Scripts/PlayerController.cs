@@ -80,6 +80,10 @@ public class PlayerController : MonoBehaviour
 
     public void GetHitted()
     {
+        if (GameManager.Instance.godMode)
+        {
+            return;
+        }
         currentSpeed = 0.2f;
         speedChanged = true;
         animator.SetTrigger("Hitted");
