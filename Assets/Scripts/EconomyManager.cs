@@ -34,11 +34,26 @@ public class EconomyManager : MonoBehaviour
 
 
     [Header("LevelFinishVariables")]
+    //Level Failed
     [SerializeField] private GameObject lostCoinsBG;
     [SerializeField] private GameObject lostDiamondsBG;
 
     [SerializeField] private TMP_Text lostCoinsText;
     [SerializeField] private TMP_Text lostDiamondsText;
+
+
+    [Space(5)]
+    //Level Passed
+    [SerializeField] private GameObject earnedCoinsBG;
+    [SerializeField] private GameObject earnedDiamondsBG;
+
+    [SerializeField] private GameObject totalCoinsIcon;
+    [SerializeField] private GameObject totalDiamondsIcon;
+
+    [SerializeField] private TMP_Text earnedCoinsText;
+    [SerializeField] private TMP_Text earnedDiamondsText;
+    [SerializeField] private TMP_Text totalCoinsText;
+    [SerializeField] private TMP_Text totalDiamondsText;
 
     [SerializeField] private GameObject menuCanvas;
     [SerializeField] private GameObject finishCanvas;
@@ -49,6 +64,7 @@ public class EconomyManager : MonoBehaviour
     private int coinAnimCount;
 
     private bool retryButtonActive;
+    private bool nextLevelButtonPressed;
 
     private GameManager gameManager;
 
@@ -112,7 +128,49 @@ public class EconomyManager : MonoBehaviour
             }
             else if (finishCanvas.transform.GetChild(1).gameObject.activeSelf)
             {
+                if (!nextLevelButtonPressed)
+                {
+                    coinAnimCount = gameManager.collectedCoins;
+                    diamondAnimCount = gameManager.collectedDiamonds;
 
+                    earnedCoinsText.text = "x" + coinAnimCount.ToString();
+                    earnedDiamondsText.text = "x" + diamondAnimCount.ToString();
+
+                    totalCoinsText.text = coinAmount.ToString();
+                    totalDiamondsText.text = diamondAmount.ToString();
+                }
+                else
+                {
+                    lostTextAnimTimer += Time.deltaTime;
+                    if (lostTextAnimTimer >= lostTextAnimDuration)
+                    {
+                        if (diamondAnimCount > 0)
+                        {
+                            diamondAmount++;
+                            diamondAnimCount--;
+                            earnedDiamondsBG.GetComponent<Animator>().SetTrigger("Triggered");
+                            totalDiamondsIcon.GetComponent<Animator>().SetTrigger("Triggered");
+                        }
+                        if (coinAnimCount > 0)
+                        {
+                            coinAmount++;
+                            coinAnimCount--;
+                            earnedCoinsBG.GetComponent<Animator>().SetTrigger("Triggered");
+                            totalCoinsIcon.GetComponent<Animator>().SetTrigger("Triggered");
+                        }
+                        earnedCoinsText.text = "x" + coinAnimCount.ToString();
+                        earnedDiamondsText.text = "x" + diamondAnimCount.ToString();
+
+                        totalCoinsText.text = coinAmount.ToString();
+                        totalDiamondsText.text = diamondAmount.ToString();
+                        lostTextAnimTimer = 0;
+
+                        if (diamondAnimCount == 0 && coinAnimCount == 0)
+                        {
+                            StartCoroutine(WaitForNextScene());
+                        }
+                    }
+                }
             }
         }
     }
@@ -146,6 +204,12 @@ public class EconomyManager : MonoBehaviour
     public void RetryButton()
     {
         retryButtonActive = true;
+    }
+
+    public void NextLevelButton()
+    {
+        level++;
+        nextLevelButtonPressed = true;
     }
 
     IEnumerator WaitForNextScene()

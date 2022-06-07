@@ -134,9 +134,11 @@ public class GameManager : MonoBehaviour
     }
     void LevelPassed()
     {
-        inGameCanvas.SetActive(false);
-        finishCanvas.SetActive(true);
-        finishCanvas.transform.GetChild(1).gameObject.SetActive(true);
+        gameStarted = false;
+        playerController.isGameStarted = false;
+        inGameCanvas.SetActive(false);       
+
+        StartCoroutine(WaitForPassedCanvas());
     }
 
 
@@ -198,5 +200,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         finishCanvas.SetActive(true);
         finishCanvas.transform.GetChild(0).gameObject.SetActive(true);
+    }
+    
+    IEnumerator WaitForPassedCanvas()
+    {
+        yield return new WaitForSeconds(2);
+        finishCanvas.SetActive(true);
+        finishCanvas.transform.GetChild(1).gameObject.SetActive(true);
     }
 }
