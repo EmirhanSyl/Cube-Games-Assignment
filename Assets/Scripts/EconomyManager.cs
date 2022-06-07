@@ -148,14 +148,14 @@ public class EconomyManager : MonoBehaviour
                         {
                             diamondAmount++;
                             diamondAnimCount--;
-                            earnedDiamondsBG.GetComponent<Animator>().SetTrigger("Triggered");
+                            earnedDiamondsBG.GetComponent<Animator>().SetTrigger("PassedTrigger");
                             totalDiamondsIcon.GetComponent<Animator>().SetTrigger("Triggered");
                         }
                         if (coinAnimCount > 0)
                         {
                             coinAmount++;
                             coinAnimCount--;
-                            earnedCoinsBG.GetComponent<Animator>().SetTrigger("Triggered");
+                            earnedCoinsBG.GetComponent<Animator>().SetTrigger("PassedTrigger");
                             totalCoinsIcon.GetComponent<Animator>().SetTrigger("Triggered");
                         }
                         earnedCoinsText.text = "x" + coinAnimCount.ToString();

@@ -43,7 +43,13 @@ public class GameManager : MonoBehaviour
     private float godModeTimer;
     private float slowTimeTimer;
 
+    private int obstacleCount = 10;
+    private int diamondCount = 3;
+    private int coinCount = 25;
+
     private bool slowTimeBooster;
+
+    private GameObject[] spawnPoints;
 
     private PlayerController playerController;
     private ObjectPool objectPool;
@@ -54,21 +60,32 @@ public class GameManager : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         objectPool = GameObject.FindGameObjectWithTag("ObjectPool").GetComponent<ObjectPool>();
         economyManager = GameObject.FindGameObjectWithTag("EconomyManager").GetComponent<EconomyManager>();
+        spawnPoints = GameObject.FindGameObjectsWithTag("ObstacleSpawn");
 
         levelLength = Vector3.Distance(transform.position, finishTransform.position);
         diamondCountText.text = "0";
-        coinCountText.text = "0";
-
-        //for (int i = 0; i < health; i++)
-        //{
-        //    var heart = Instantiate(healthObject);
-        //    heart.transform.parent = healthParentObject.transform;
-        //}
-
+        coinCountText.text = "0";        
         
     }
 
-    
+    private void Start()
+    {
+        for (int i = 0; i < obstacleCount; i++)
+        {
+            ObjectPool.Instance.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0,90,0));
+        }
+
+        for (int i = 0; i < diamondCount; i++)
+        {
+            ObjectPool.Instance.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+        }
+        
+        for (int i = 0; i < coinCount; i++)
+        {
+            ObjectPool.Instance.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+        }
+    }
+
     void Update()
     {
         if (!gameStarted && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -150,6 +167,17 @@ public class GameManager : MonoBehaviour
             collectedDiamonds++;
 
             diamondCountText.text = collectedDiamonds.ToString();
+            diamondCount--;
+
+            while (diamondCount < 3)
+            {
+                var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+                if (selectedSpawn.z - transform.position.z > 10)
+                {
+                    ObjectPool.Instance.SpawnFromPool("Diamond", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f,0), Quaternion.identity);
+                    diamondCount++;
+                }
+            }
 
             diamondSprite.GetComponent<Animator>().SetTrigger("DiamondCollected");
             objectPool.diamondCollectedFX.transform.position = other.transform.position;
@@ -159,17 +187,39 @@ public class GameManager : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             collectedCoins += economyManager.coinMultiplier;
+            coinCount--;
 
+            while (coinCount < 25)
+            {
+                var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+                if (selectedSpawn.z - transform.position.z > 10)
+                {
+                    ObjectPool.Instance.SpawnFromPool("Coin", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position + new Vector3(0, 1f, 0), Quaternion.identity);
+                    coinCount++;
+                }
+            }
             coinCountText.text = collectedCoins.ToString();
         }
         else if (other.gameObject.CompareTag("Obstacle"))
         {
             other.gameObject.SetActive(false);
+            obstacleCount--;
+
             if (!godMode)
             {
                 health--;
-                healthParentObject.transform.GetChild(healthParentObject.transform.childCount - 1).gameObject.SetActive(false);
+                Destroy(healthParentObject.transform.GetChild(healthParentObject.transform.childCount - 1).gameObject);
             }
+
+            while (obstacleCount < 10)
+            {
+                var selectedSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position;
+                if (selectedSpawn.z - transform.position.z > 10)
+                {
+                    ObjectPool.Instance.SpawnFromPool("Obstacle", spawnPoints[Random.Range(0, spawnPoints.Length)].transform.position, Quaternion.Euler(0, 90, 0));
+                    obstacleCount++;
+                }
+            }            
 
             if (health > 0)
             {

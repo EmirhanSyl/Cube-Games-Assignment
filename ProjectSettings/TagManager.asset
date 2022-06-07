@@ -11,6 +11,7 @@ TagManager:
   - EconomyManager
   - TimeSlower
   - GodMode
+  - ObstacleSpawn
   layers:
   - Default
   - TransparentFX

@@ -2769,6 +2769,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diamondCollectedFX: {fileID: 7883474347645818100}
+  pools:
+  - tag: Obstacle
+    prefab: {fileID: 157148, guid: e013b60eb0eec284ba3dce713b6ebf9b, type: 3}
+    size: 10
+  - tag: Diamond
+    prefab: {fileID: 1000013931470818, guid: 5c02591794acece409986647ed6329a7, type: 3}
+    size: 3
+  - tag: Coin
+    prefab: {fileID: 1000013656696560, guid: cd34118c604e29141afea74caecd70f2, type: 3}
+    size: 25
 --- !u!4 &493456865
 Transform:
   m_ObjectHideFlags: 0
@@ -58299,7 +58309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461264, guid: e013b60eb0eec284ba3dce713b6ebf9b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.035
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 461264, guid: e013b60eb0eec284ba3dce713b6ebf9b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58336,10 +58346,6 @@ PrefabInstance:
     - target: {fileID: 461264, guid: e013b60eb0eec284ba3dce713b6ebf9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8935230493362650466, guid: e013b60eb0eec284ba3dce713b6ebf9b, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e013b60eb0eec284ba3dce713b6ebf9b, type: 3}
@@ -68017,7 +68023,7 @@ MonoBehaviour:
   collectedCoins: 0
   godMode: 0
   gameStarted: 0
-  godModeDuration: 2
+  godModeDuration: 1.1
   slowTimeDuration: 2
   healthObject: {fileID: 2441520645348920755, guid: 328afbec8de443c4e81f1a287cdc1252, type: 3}
   healthParentObject: {fileID: 1046764449}
