@@ -67,3 +67,21 @@
 * When shild collectable is taken, it provides an ability to doesn't effect from obstacles for player. For pretty short time, of course!
 
 #### Time Slower:
+![image](https://user-images.githubusercontent.com/61618968/172669621-5767c1eb-a3c3-4566-affc-a9396092813e.png)
+
+* When this booster is collected, it slow down the time for 2 seconds. (2 secons for slow game and 4 seconds for real time)
+
+### UI Animations:
+
+* There are 3 animation in UI. 
+1- When a diamond collect, diamond icon plays a little animation.
+
+![image](https://user-images.githubusercontent.com/61618968/172670642-2c9bd41d-da48-42a3-877e-47bd2b52b3e5.png)
+
+2- On failed canvas, lost diamonds and coins panels play an animation.
+
+![image](https://user-images.githubusercontent.com/61618968/172670967-a0a64aa1-f869-436f-b15d-08d3a14b1e54.png)
+
+3- On passed canvas, earned diamonds and coins panels and their total count icons play an animation.
+
+![image](https://user-images.githubusercontent.com/61618968/172671415-c2ba341f-d8d2-4cac-8b22-57652c05abce.png)
