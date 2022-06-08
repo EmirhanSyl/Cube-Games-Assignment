@@ -1,6 +1,9 @@
 # Cube-Games-Assignment
  An assignment for Cube Games
 
+## About game:
+* It's a basic 3D runner game. Player run forward and try to passing levels with collecting the collectables and escape from obstacles. 
+
 ## Includes:
 
 - Level system(3 level)
@@ -11,6 +14,7 @@
 - Save and continue system
 - UI animations
 - sound effects
+- AND MORE... (In the following lines)
 
 ### Interfaces:
 
