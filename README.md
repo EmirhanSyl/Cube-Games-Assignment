@@ -16,6 +16,11 @@
 - sound effects
 - AND MORE... (In the following lines)
 
+### Swerve System
+![image](https://user-images.githubusercontent.com/61618968/172684492-6cb6c115-4558-4e83-a9df-64991041e7c8.png)
+
+* Useful and well performed swerve system. It changes player's x position depends on swipe moves on screen
+
 ### Interfaces:
 
 #### Menu UserInterface(UI):
