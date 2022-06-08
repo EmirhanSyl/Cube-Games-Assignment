@@ -85,3 +85,24 @@
 3- On passed canvas, earned diamonds and coins panels and their total count icons play an animation.
 
 ![image](https://user-images.githubusercontent.com/61618968/172671415-c2ba341f-d8d2-4cac-8b22-57652c05abce.png)
+
+### End Scene Cinematic Camera:
+![image](https://user-images.githubusercontent.com/61618968/172677630-1b5d4961-8312-4423-b651-6843caa2fa42.png)
+
+* When the level ends(player fail or pass) camera perspective changes smoothly.
+
+### Upgrade Options:
+![image](https://user-images.githubusercontent.com/61618968/172678166-5632d945-0698-4985-8b7c-710711498bc0.png)
+
+* On the Menu canvas, there are 2 upgrade option for player. Basically Heart upgrade button increase player health count and players can have more chance to complate the level. And the second upgrade button increases collected coin amount multiplier. So, when player collect a coin it will multiply by the multiplier count.
+
+## Bonus:
+
+### Hitted and Failed Animations:
+![image](https://user-images.githubusercontent.com/61618968/172679344-fc2de6b3-6877-4a97-bdb2-5e26cc416eca.png) ![image](https://user-images.githubusercontent.com/61618968/172679994-31347579-9484-4c63-8b4a-0cb4dc4d7574.png)
+
+* Damage taken animation plays when player hits the obstacle and fail animation plays when player has no more heart at the end.
+
+### Soundtrack And SFX
+
+* A soundtrack that plays in entire game and a sound effect that plays when coin collects
